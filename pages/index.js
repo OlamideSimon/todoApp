@@ -57,13 +57,14 @@ const closeDropdownPopover = () => {
 
   const newArr = [...tasks]
   newArr.sort((a, b) => a.completed - b.completed)
+  const name = localStorage.getItem('name').slice(0, 1)
 
   return (
     <div className='flex justify-center items-center h-[100vh]'>
       <div className='bg-[#3c424a] h-[600px] w-[500px] font-mono'>
         <div className='flex justify-end border-b-[#a05171] border-b-2'>
           <IconButton ref={btnDropdownRef} onClick={showOption}>
-            <Avatar sx={{width: 35, height: 35, backgroundColor: '#f06292'}}>{localStorage.getItem('name').slice(0, 1)}</Avatar>
+            <Avatar sx={{width: 35, height: 35, backgroundColor: '#f06292'}}>{name}</Avatar>
           </IconButton>
           <div 
             ref={popoverDropdownRef} 
