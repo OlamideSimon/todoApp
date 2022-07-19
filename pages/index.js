@@ -1,6 +1,6 @@
 import { Avatar, IconButton } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, { createRef, useEffect, useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import useFetch from '../hooks/useFetch'
 import { VscListSelection } from 'react-icons/vsc'
 import { toast } from 'react-toastify'
@@ -11,7 +11,7 @@ import { createTask, getTasks, reset } from '../store/tasks/taskSlice'
 import { createPopper } from '@popperjs/core'
 
 export default function Home() {
-  const name = localStorage.getItem('name')
+  const name = useRef()
   const router = useRouter()
   const [task, setTask] = useState('')
   const { tasks, isLoading, isError, message } = useSelector(state => state.tasks)
@@ -41,7 +41,7 @@ export default function Home() {
       dispatch(getTasks())
     }
 
-
+    name.current = localStorage.getItem('name')
     return () => {
       dispatch(reset())
     }
@@ -71,7 +71,7 @@ export default function Home() {
       <div className='bg-[#3c424a] h-[600px] w-[500px] font-mono'>
         <div className='flex justify-end border-b-[#a05171] border-b-2'>
           <IconButton ref={btnDropdownRef} onClick={showOption}>
-            <Avatar sx={{width: 35, height: 35, backgroundColor: '#f06292'}}>{name.slice(0,1)}</Avatar>
+            <Avatar sx={{width: 35, height: 35, backgroundColor: '#f06292'}} className='uppercase'>{(name.current)?.slice(0,1)}</Avatar>
           </IconButton>
           <div 
             ref={popoverDropdownRef} 
