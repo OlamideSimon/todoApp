@@ -35,7 +35,7 @@ const login = () => {
 
         if(openTab === 1) {
             const data = { email, password }
-            fetch("http://localhost:3000/api/auth/login", { 
+            fetch('/api/auth/login', { 
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: headersList
@@ -55,7 +55,7 @@ const login = () => {
             })
         } else {
             const data = { name, email, password }
-            fetch("http://localhost:3000/api/auth/register", { 
+            fetch("/api/auth/register", { 
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: headersList
