@@ -18,12 +18,6 @@ const login = () => {
 
     const { name, email, password } = formData
 
-    useEffect(() => {
-        if(localStorage.getItem('token')) {
-            router.push('/')
-        }
-    }, [router])
-
     const onChange = (e) => {
         setFormData((prevState) => ({
             ...prevState,

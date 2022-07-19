@@ -7,10 +7,11 @@ import { toast } from 'react-toastify'
 import Card from '../components/Card'
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { createTask, getTasks } from '../store/tasks/taskSlice'
+import { createTask, getTasks, reset } from '../store/tasks/taskSlice'
 import { createPopper } from '@popperjs/core'
 
 export default function Home() {
+  const name = localStorage.getItem('name')
   const router = useRouter()
   const [task, setTask] = useState('')
   const { tasks, isLoading, isError, message } = useSelector(state => state.tasks)
@@ -25,18 +26,25 @@ export default function Home() {
         placement: "bottom-end"
     });
     setDropdownPopoverShow(true);
-};
+  };
 
-const closeDropdownPopover = () => {
-  setDropdownPopoverShow(false);
-};
+  const closeDropdownPopover = () => {
+    setDropdownPopoverShow(false);
+  };
+
+  useEffect(() => {}, [])
 
   useEffect(() => {
     if(!localStorage.getItem('token') || message === 'Not Authorized' || message === 'Request failed with status code 401') {
       router.push('/login')
+    } else {
+      dispatch(getTasks())
     }
 
-    dispatch(getTasks())
+
+    return () => {
+      dispatch(reset())
+    }
   }, [router, dispatch, message])
 
   const showOption = () => {
@@ -57,14 +65,13 @@ const closeDropdownPopover = () => {
 
   const newArr = [...tasks]
   newArr.sort((a, b) => a.completed - b.completed)
-  const name = localStorage.getItem('name').slice(0, 1)
 
   return (
     <div className='flex justify-center items-center h-[100vh]'>
       <div className='bg-[#3c424a] h-[600px] w-[500px] font-mono'>
         <div className='flex justify-end border-b-[#a05171] border-b-2'>
           <IconButton ref={btnDropdownRef} onClick={showOption}>
-            <Avatar sx={{width: 35, height: 35, backgroundColor: '#f06292'}}>{name}</Avatar>
+            <Avatar sx={{width: 35, height: 35, backgroundColor: '#f06292'}}>{name.slice(0,1)}</Avatar>
           </IconButton>
           <div 
             ref={popoverDropdownRef} 
